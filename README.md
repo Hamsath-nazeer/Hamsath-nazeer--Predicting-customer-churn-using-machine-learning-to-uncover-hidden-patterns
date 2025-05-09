@@ -1,8 +1,11 @@
 Predicting Customer Churn Using Machine Learning
+
 Overview
+
 Customer churn prediction is crucial for businesses aiming to retain customers and optimize engagement strategies. This project leverages machine learning to analyze customer behavior and identify patterns that indicate potential churn.
 
 Features
+
 Data Preprocessing: Cleaning and preparing customer data for analysis.
 
 Exploratory Data Analysis (EDA): Identifying trends and insights from customer behavior.
@@ -53,6 +56,7 @@ Evaluate results and interpret churn indicators.
 Deploy predictions for business impact.
 
 Project Structure
+
 📂 Predicting-Customer-Churn
  ┣ 📂 data
  ┃ ┣ 📜 customer_data.csv
@@ -63,7 +67,9 @@ Project Structure
  ┣ 📜 main.py
  ┣ 📜 README.md
  ┣ 📜 requirements.txt
+ 
 Results
+
 Achieved X% accuracy on test data.
 
 Identified key behavioral indicators influencing churn.
@@ -71,7 +77,9 @@ Identified key behavioral indicators influencing churn.
 Suggested customer retention strategies based on model insights.
 
 Contributions
+
 Pull requests are welcome! Please open an issue for any changes or improvements.
 
 License
+
 This project is licensed under the MIT License.
