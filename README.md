@@ -1,85 +1,93 @@
-Predicting Customer Churn Using Machine Learning
+# Bank Churn Prediction using MLflow and Flask
 
-Overview
+This project is an end-to-end machine learning system for predicting bank customer churn based on a set of key features such as age, tenure, active membership, and credit score. It uses a pipeline for data ingestion, validation, transformation, model training, and evaluation. The model is deployed via a Flask web application that allows for real-time predictions.
 
-Customer churn prediction is crucial for businesses aiming to retain customers and optimize engagement strategies. This project leverages machine learning to analyze customer behavior and identify patterns that indicate potential churn.
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Running the Application](#running-the-application)
+- [Usage](#usage)
+- [Model Evaluation](#model-evaluation)
 
-Features
+## Project Overview
+This system predicts whether a customer will churn based on various features like:
+- Age
+- Tenure
+- IsActiveMember status
+- Gender
+- Geography
+- CreditScore
+- NumOfProducts
 
-Data Preprocessing: Cleaning and preparing customer data for analysis.
+The dataset is highly imbalanced, so **SMOTE** (Synthetic Minority Over-sampling Technique) was applied to handle the imbalance. Multiple machine learning algorithms were tested, and **Gradient Boosting Classifier** was found to be the best-performing model based on accuracy, precision, recall, and F1-score.
 
-Exploratory Data Analysis (EDA): Identifying trends and insights from customer behavior.
+The project is structured as a modular pipeline and includes data ingestion, validation, feature engineering, model training, and evaluation.
 
-Model Selection: Comparing various machine learning algorithms for best accuracy.
+## Features
+- **Data Ingestion**: Handles reading and loading data for training and testing.
+- **Data Validation**: Ensures data quality and consistency.
+- **Data Transformation**: Preprocessing and feature engineering using techniques like scaling, encoding, etc.
+- **Model Training**: A range of models are tested, and Gradient Boosting Classifier is used for final predictions.
+- **Model Evaluation**: Metrics like accuracy, precision, recall, and F1-score are calculated.
+- **Flask Web App**: Provides two URLs: one for the default route and another for making predictions.
 
-Feature Engineering: Enhancing predictive capabilities through derived attributes.
+## Technologies Used
+- **Python** (for building the pipeline and machine learning models)
+- **Flask** (for deploying the model as a web app)
+- **MLflow** (for tracking model metrics and artifacts)
+- **Pandas** (for data manipulation)
+- **Scikit-learn** (for model building and evaluation)
+- **SMOTE** (for handling imbalanced data)
+- **Conda** (for environment management)
 
-Evaluation Metrics: Assessing model performance using precision, recall, F1-score, and ROC-AUC.
+## Installation
 
-Tech Stack
-Python
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Debopam-Pritam2014/customer-churn.git
+    cd customer-churn
+    ```
 
-Pandas, NumPy for data handling
+2. Create and activate the Conda environment:
+    ```bash
+    conda create --name churn_prediction python=3.10
+    conda activate churn_prediction
+    ```
 
-Scikit-learn, XGBoost for machine learning
+3. Install the required dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Matplotlib, Seaborn for visualization
+## Running the Application
 
-Jupyter Notebook for development
+1. Run the Flask app:
+    ```bash
+    python app.py
+    ```
 
-Installation
-Clone the repository:
+2. The app will start on `http://127.0.0.1:5000/`.
 
-bash
-git clone https://github.com/your-username/your-repo.git
-Navigate to the project directory:
+### Flask URLs:
+- **Default route** (`/`): For testing the app.
+- **Prediction route** (`/predict`): Accepts input features for making predictions.
 
-bash
-cd your-repo
-Install dependencies:
+## Usage
 
-bash
-pip install -r requirements.txt
-Run the project:
+Once the application is running, you can access the following:
 
-bash
-python main.py
-Usage
-Load customer data into the project.
+- Default route: `http://127.0.0.1:5000/`
+- Prediction route: `http://127.0.0.1:5000/predict`
 
-Run exploratory analysis to visualize patterns.
+You can use the `/predict` route to input features like `age`, `tenure`, `creditscore`, etc., and get back whether the customer is predicted to churn or not.
 
-Train selected machine learning models.
+## Model Evaluation
+The model was evaluated using various metrics:
+- **Accuracy**  : 86%
+- **Precision** : 66%
+- **Recall**    : 62%
+- **F1-score**  : 60%
 
-Evaluate results and interpret churn indicators.
-
-Deploy predictions for business impact.
-
-Project Structure
-
-📂 Predicting-Customer-Churn
- ┣ 📂 data
- ┃ ┣ 📜 customer_data.csv
- ┣ 📂 models
- ┃ ┣ 📜 churn_model.pkl
- ┣ 📂 notebooks
- ┃ ┣ 📜 exploratory_analysis.ipynb
- ┣ 📜 main.py
- ┣ 📜 README.md
- ┣ 📜 requirements.txt
- 
-Results
-
-Achieved X% accuracy on test data.
-
-Identified key behavioral indicators influencing churn.
-
-Suggested customer retention strategies based on model insights.
-
-Contributions
-
-Pull requests are welcome! Please open an issue for any changes or improvements.
-
-License
-
-This project is licensed under the MIT License.
+The Gradient Boosting Classifier was found to be the best-performing model for predicting churn.
