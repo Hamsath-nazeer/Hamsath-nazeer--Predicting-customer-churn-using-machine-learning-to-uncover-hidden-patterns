@@ -1,0 +1,81 @@
+# app.py
+
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Set Streamlit page config
+st.set_page_config(page_title="Iris Species Classifier", layout="wide")
+
+# Title
+st.title("Iris Species Prediction App")
+
+# Load Data
+@st.cache_data
+def load_data():
+    df = sns.load_dataset('iris')
+    df.dropna(inplace=True)
+    return df
+
+df = load_data()
+
+# Sidebar for user input
+st.sidebar.header("Input Features")
+
+def user_input_features():
+    sepal_length = st.sidebar.slider('Sepal length (cm)', float(df.sepal_length.min()), float(df.sepal_length.max()), float(df.sepal_length.mean()))
+    sepal_width = st.sidebar.slider('Sepal width (cm)', float(df.sepal_width.min()), float(df.sepal_width.max()), float(df.sepal_width.mean()))
+    petal_length = st.sidebar.slider('Petal length (cm)', float(df.petal_length.min()), float(df.petal_length.max()), float(df.petal_length.mean()))
+    petal_width = st.sidebar.slider('Petal width (cm)', float(df.petal_width.min()), float(df.petal_width.max()), float(df.petal_width.mean()))
+    data = {
+        'sepal_length': [sepal_length],
+        'sepal_width': [sepal_width],
+        'petal_length': [petal_length],
+        'petal_width': [petal_width]
+    }
+    return pd.DataFrame(data)
+
+input_df = user_input_features()
+
+# Model Training
+X = df.drop('species', axis=1)
+y = df['species']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train_scaled, y_train)
+
+# Prediction
+input_scaled = scaler.transform(input_df)
+prediction = model.predict(input_scaled)
+prediction_proba = model.predict_proba(input_scaled)
+
+# Output
+st.subheader("Prediction")
+st.write(f"Predicted species: **{prediction[0]}**")
+
+st.subheader("Prediction Probability")
+proba_df = pd.DataFrame(prediction_proba, columns=model.classes_)
+st.write(proba_df)
+
+# Feature Importances
+st.subheader("Feature Importances")
+feature_importances = pd.Series(model.feature_importances_, index=X.columns)
+fig, ax = plt.subplots()
+feature_importances.sort_values().plot(kind='barh', ax=ax)
+st.pyplot(fig)
+
+# EDA Plot
+st.subheader("Pairplot (EDA)")
+with st.expander("Show Pairplot"):
+    fig2 = sns.pairplot(df, hue='species')
+    st.pyplot(fig2)
